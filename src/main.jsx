@@ -3,13 +3,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Main from "./Components/Layout/Main.jsx";
+import Root from "./Components/Layout/Root.jsx";
 import Members from "./Components/Pages/Members/Members.jsx";
+import AddMembers from "./Components/Pages/AddMembers/AddMembers.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <Root />,
     children: [
       {
         path: "/",
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/members",
         element: <Members />,
+      },
+      {
+        path: "/add-members",
+        element: <AddMembers />,
       },
     ],
   },
