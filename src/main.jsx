@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       {
         path: "/members",
         element: <Members />,
+        loader: () => fetch("http://localhost:5000/members")
       },
       {
         path: "/add-members",

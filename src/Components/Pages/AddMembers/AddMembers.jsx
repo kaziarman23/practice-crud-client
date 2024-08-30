@@ -1,19 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const AddMembers = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleAddMember = (e) => {
     e.preventDefault();
 
-    console.log(name, email, password);
+    // sending datas in the backend-server
+    const member = { name, email, password };
+    fetch("http://localhost:5000/members", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(member),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Success",
+            text: "New Member Added",
+            icon: "success",
+            confirmButtonText: "Cool",
+          });
 
-    // clearing inputs
-    setName("")
-    setEmail("")
-    setPassword("")
+          // clearing inputs
+          setName("");
+          setEmail("");
+          setPassword("");
+          navigate("/members");
+        }
+      });
   };
 
   return (
