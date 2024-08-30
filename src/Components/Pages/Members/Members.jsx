@@ -1,15 +1,49 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Members = () => {
   const loadedData = useLoaderData();
   const [members, setMembers] = useState(loadedData);
-  console.log(loadedData);
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/members/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              const remainingMembers = members.filter(
+                (member) => member._id !== id
+              );
+              setMembers(remainingMembers);
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          });
+      }
+    });
+  };
+
   return (
     <div className="w-full h-screen">
       <div className="w-4/5 h-[550px] mx-auto border-2">
         <h1 className="p-3 font-bold text-center">
-          Total Members: {loadedData.length}
+          Total Members: {members.length}
         </h1>
         <div className="h-auto">
           <div className="overflow-x-auto">
@@ -23,15 +57,22 @@ const Members = () => {
                 </tr>
               </thead>
               <tbody>
-                {loadedData.map((member, index) => (
+                {members.map((member, index) => (
                   <tr key={index}>
                     <th className="text-white">{index + 1}</th>
                     <td>{member.name}</td>
                     <td>{member.email}</td>
                     <td>
                       <div className="flex gap-2 items-center">
-                        <button className="btn">Edit</button>
-                        <button className="btn">Delete</button>
+                        <Link to={`/update/${member._id}`}>
+                          <button className="btn">Edit</button>
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(member._id)}
+                          className="btn"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </td>
                   </tr>
