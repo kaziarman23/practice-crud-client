@@ -13,7 +13,7 @@ const Update = () => {
 
     // sending datas in the backend-server
     const member = { name, email };
-    fetch(`http://localhost:5000/members/${loadedData._id}`, {
+    fetch(`https://practice-crud-server-three.vercel.app/members/${loadedData._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

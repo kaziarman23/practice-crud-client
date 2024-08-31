@@ -12,7 +12,7 @@ const AddMembers = () => {
 
     // sending datas in the backend-server
     const member = { name, email, password };
-    fetch("http://localhost:5000/members", {
+    fetch("https://practice-crud-server-three.vercel.app/members", {
       method: "POST",
       headers: {
         "content-type": "application/json",

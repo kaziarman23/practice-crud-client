@@ -20,12 +20,12 @@ const router = createBrowserRouter([
       {
         path: "/members",
         element: <Members />,
-        loader: () => fetch("http://localhost:5000/members"),
+        loader: () => fetch("https://practice-crud-server-three.vercel.app/members"),
       },
       {
         path: "/update/:id",
         element: <Update />,
-        loader: ({params}) => fetch(`http://localhost:5000/members/${params.id}`),
+        loader: ({params}) => fetch(`https://practice-crud-server-three.vercel.app/members/${params.id}`),
       },
       {
         path: "/add-members",
